@@ -1,0 +1,2 @@
+DATABASE_URL=postgresql://username:password@localhost:5432/demon_slayer_tweet
+NODE_ENV=development

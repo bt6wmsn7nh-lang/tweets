@@ -1,0 +1,44 @@
+# Demon Slayer Tweet — shared accounts
+
+This version uses PostgreSQL, so accounts, tweets, likes, and profiles work across different browsers and devices.
+
+## Render deployment
+
+1. Extract this ZIP.
+2. Upload all files to a GitHub repository.
+3. In Render, select **New > Blueprint**.
+4. Connect the repository.
+5. Apply the Blueprint.
+
+Render will create:
+- A Node web service
+- A PostgreSQL database
+- The `DATABASE_URL` connection automatically
+
+## Required project layout
+
+```text
+demon-slayer-tweet-shared/
+├── package.json
+├── server.js
+├── render.yaml
+└── public/
+    └── index.html
+```
+
+## Important security behavior
+
+- Usernames are converted to lowercase.
+- PostgreSQL has a `UNIQUE` constraint, so another person cannot register the same username.
+- Passwords are hashed with bcrypt and are never returned to the browser.
+- Login cookies are HTTP-only and use SameSite=Strict.
+- Tweets and likes are stored in PostgreSQL.
+
+## Local use
+
+Create a PostgreSQL database, set `DATABASE_URL`, then run:
+
+```bash
+npm install
+npm start
+```

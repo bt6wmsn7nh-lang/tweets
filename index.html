@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Demon Slayer Tweet shared social network">
+<title>Demon Slayer Tweet</title>
+<style>
+:root{
+  --bg:#07090d;--bg2:#10141b;--panel:rgba(15,18,25,.88);--panel-solid:#151923;
+  --text:#f8f4eb;--muted:#a8acb6;--line:rgba(255,255,255,.10);
+  --accent:#e0484e;--accent2:#7d1b24;--input:rgba(4,6,10,.64);
+  --shadow:0 22px 60px rgba(0,0,0,.34);--pattern:rgba(255,255,255,.035)
+}
+html[data-theme="light"]{
+  --bg:#eee7dc;--bg2:#dfe8e8;--panel:rgba(255,252,246,.89);--panel-solid:#fffaf2;
+  --text:#211c1b;--muted:#68656a;--line:rgba(30,20,20,.12);
+  --accent:#b72f36;--accent2:#771c22;--input:rgba(255,255,255,.76);
+  --shadow:0 22px 55px rgba(68,43,36,.16);--pattern:rgba(60,35,30,.04)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 16% 7%,rgba(191,40,48,.30),transparent 28%),
+    radial-gradient(circle at 82% 21%,rgba(46,142,164,.20),transparent 29%),
+    linear-gradient(145deg,var(--bg),var(--bg2) 52%,var(--bg));
+  transition:background .25s,color .25s;overflow-x:hidden
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-3;
+  background:
+    linear-gradient(45deg,var(--pattern) 25%,transparent 25%) 0 0/44px 44px,
+    linear-gradient(-45deg,var(--pattern) 25%,transparent 25%) 0 22px/44px 44px,
+    linear-gradient(45deg,transparent 75%,var(--pattern) 75%) 22px -22px/44px 44px,
+    linear-gradient(-45deg,transparent 75%,var(--pattern) 75%) -22px 0/44px 44px
+}
+.scenery{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.moon{position:absolute;right:8vw;top:9vh;width:145px;height:145px;border-radius:50%;background:rgba(255,239,199,.88);box-shadow:0 0 70px rgba(255,226,160,.28)}
+.mountain{position:absolute;bottom:-190px;width:520px;height:430px;transform:rotate(45deg);background:rgba(7,17,23,.72)}
+.mountain.one{left:-130px}.mountain.two{left:28%;bottom:-265px;background:rgba(10,25,30,.63)}.mountain.three{right:-160px;background:rgba(9,18,25,.72)}
+.red-sun{position:absolute;left:-55px;top:36%;width:180px;height:180px;border-radius:50%;border:26px solid rgba(200,39,47,.10)}
+button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}
+.topbar{
+  position:sticky;top:0;z-index:30;min-height:72px;display:flex;align-items:center;justify-content:space-between;
+  padding:10px max(16px,calc((100vw - 1390px)/2));border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px)
+}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:45px;height:45px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--accent);background:var(--panel-solid);font-family:serif;font-size:22px;box-shadow:0 0 25px rgba(218,54,62,.28)}.brand strong,.brand small{display:block}.brand small{color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.2em}.top-actions{display:flex;align-items:center;gap:9px}
+.shell{width:min(1390px,calc(100% - 26px));margin:24px auto 70px;display:grid;grid-template-columns:285px minmax(440px,700px) 305px;gap:20px;align-items:start}
+.card{border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.left,.right{position:sticky;top:96px}.left{padding:20px;overflow:hidden}
+.hero-art{position:relative;height:180px;margin:-20px -20px 20px;overflow:hidden;background:linear-gradient(#0b1620,#1d4048 62%,#090b10)}
+.hero-art .moon{position:absolute;width:75px;height:75px;right:30px;top:25px}
+.hero-art::before,.hero-art::after{content:"";position:absolute;bottom:-100px;width:260px;height:220px;transform:rotate(45deg);background:#102229}.hero-art::before{left:-65px}.hero-art::after{right:-80px;background:#0b181e}
+.sword{position:absolute;left:62px;bottom:-13px;width:9px;height:185px;transform:rotate(34deg);border-radius:8px;background:linear-gradient(90deg,#49a9c2,#f6ffff,#387082);box-shadow:0 0 18px rgba(92,199,225,.42)}
+.eyebrow{margin:0 0 7px;color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.18em}.left h1{font-size:29px;line-height:1.05;margin:5px 0 12px}.left p{line-height:1.55}.feature{display:flex;gap:11px;margin-top:17px}.feature>span{width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04)}.feature b,.feature small{display:block}.feature small{margin-top:3px;color:var(--muted)}
+.auth,.composer{padding:18px;margin-bottom:18px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;padding:5px;background:rgba(127,127,127,.08);border-radius:14px}.tab{border:0;border-radius:10px;padding:10px;background:transparent;color:var(--muted);font-weight:850}.tab.active{color:white;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.form{display:grid;gap:13px}label{display:grid;gap:7px;font-size:13px;font-weight:760}input,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--input);color:var(--text);outline:none}input{height:46px;padding:0 13px}textarea{min-height:112px;padding:13px;resize:vertical}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(210,56,64,.13)}
+.primary,.secondary,.icon{border-radius:12px;font-weight:850}.primary{border:0;padding:11px 16px;color:white;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 24px rgba(160,29,35,.24)}.secondary{border:1px solid var(--line);padding:10px 14px;background:rgba(127,127,127,.08);color:var(--text)}.icon{width:41px;height:41px;display:grid;place-items:center;border:1px solid var(--line);background:rgba(127,127,127,.08);color:var(--text);font-size:18px}
+.avatar{flex:0 0 auto;width:47px;height:47px;display:grid;place-items:center;border-radius:50%;border:2px solid rgba(255,255,255,.18);font-family:serif;font-size:20px;color:white;box-shadow:inset 0 0 16px rgba(255,255,255,.12)}.avatar.big{width:86px;height:86px;margin:0 auto 12px;font-size:35px}.water{background:linear-gradient(135deg,#1b96b7,#17306d)}.flame{background:linear-gradient(135deg,#ff9b28,#961821)}.mist{background:linear-gradient(135deg,#9ab6bc,#43575c)}.thunder{background:linear-gradient(135deg,#ead044,#8d6209)}.flower{background:linear-gradient(135deg,#e47fbd,#713167)}
+.composer{display:grid;grid-template-columns:auto 1fr;gap:13px}.composer textarea{border:0;background:transparent;font-size:16px}.composer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.feed-head{display:flex;align-items:center;justify-content:space-between;margin:22px 4px 12px}.feed-head h2{margin:0;font-size:25px}.feed{display:grid;gap:12px}.post{padding:17px;animation:rise .32s ease both;transition:.2s}.post:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}@keyframes rise{from{opacity:0;transform:translateY(11px)}}.post-top{display:flex;gap:11px}.post-meta{min-width:0;flex:1}.post-name{font-weight:850}.post-user,.post-time{font-size:13px;color:var(--muted)}.post-body{margin:12px 0 14px 58px;line-height:1.56;white-space:pre-wrap;overflow-wrap:anywhere}.actions{display:flex;align-items:center;gap:8px;margin-left:58px}.action{border:0;border-radius:999px;padding:8px 11px;background:transparent;color:var(--muted)}.action:hover{color:var(--text);background:rgba(127,127,127,.09)}.action.liked{color:#f26368;background:rgba(210,50,58,.12)}.delete{margin-left:auto}.empty{padding:34px;text-align:center;color:var(--muted)}
+.right{display:grid;gap:16px}.profile,.rules,.trends{padding:19px}.profile{text-align:center}.profile h3{margin:0}.profile .secondary{width:100%;margin-top:5px}.bio{min-height:24px;line-height:1.45}.profile-details{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0;text-align:left}.detail{padding:11px;border:1px solid var(--line);border-radius:13px;background:rgba(127,127,127,.06)}.detail small,.detail b{display:block}.detail small{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.detail b{margin-top:4px;font-size:13px;overflow-wrap:anywhere}.rules h3{margin:0 0 8px}.rules p:last-child{color:var(--muted);line-height:1.55}.trends>div{padding:12px 0;border-top:1px solid var(--line)}.trends b,.trends small{display:block}.trends small{color:var(--muted);margin-top:4px}
+dialog{width:min(530px,calc(100% - 28px));border:1px solid var(--line);border-radius:22px;padding:0;color:var(--text);background:var(--panel-solid);box-shadow:0 30px 100px rgba(0,0,0,.7)}dialog::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(5px)}dialog form{display:grid;gap:16px;padding:22px}.dialog-head{display:flex;justify-content:space-between;align-items:center}.dialog-head h2{margin:0}fieldset{border:1px solid var(--line);border-radius:14px}legend{color:var(--muted);font-size:12px}.styles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.styles label{align-items:center;justify-items:center;font-size:10px}.styles input{display:none}.styles input:checked+.avatar{outline:3px solid var(--text);outline-offset:2px}
+.toast{position:fixed;z-index:80;right:18px;bottom:18px;max-width:360px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#242832;color:white;box-shadow:0 15px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(14px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}.toast.error{background:#7d2026}
+@media(max-width:1090px){.shell{grid-template-columns:minmax(430px,700px) 290px;justify-content:center}.left{display:none}}
+@media(max-width:770px){.shell{width:min(100% - 18px,700px);grid-template-columns:1fr;margin-top:12px}.right{position:static;grid-row:1}.rules,.trends{display:none}.topbar{padding:10px 12px}.profile-details{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.post-body,.actions{margin-left:0}.profile-details{grid-template-columns:1fr 1fr}.styles{grid-template-columns:repeat(3,1fr)}.brand strong{font-size:14px}.brand small{font-size:8px}}
+</style>
+</head>
+<body>
+<div class="scenery"><div class="moon"></div><div class="mountain one"></div><div class="mountain two"></div><div class="mountain three"></div><div class="red-sun"></div></div>
+
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">滅</span><span><strong>Demon Slayer</strong><small>Tweet</small></span></div>
+  <div class="top-actions">
+    <button type="button" id="themeToggle" class="icon" aria-label="Change theme">☀</button>
+    <div id="headerActions"><span class="muted">Join the Corps</span></div>
+  </div>
+</header>
+
+<main class="shell">
+  <aside class="left card">
+    <div class="hero-art"><div class="moon"></div><div class="sword"></div></div>
+    <p class="eyebrow">SHARED SOCIAL FEED</p>
+    <h1>Your profile follows you everywhere.</h1>
+    <p class="muted">Sign in from another browser and your profile, tweets, and likes will still be there.</p>
+    <div class="feature"><span>水</span><div><b>Persistent accounts</b><small>Stored safely in PostgreSQL.</small></div></div>
+    <div class="feature"><span>炎</span><div><b>Unique usernames</b><small>No one can copy a registered username.</small></div></div>
+    <div class="feature"><span>雷</span><div><b>Editable profile</b><small>Change your name, bio, and style.</small></div></div>
+  </aside>
+
+  <section id="socialPage">
+    <div id="authCard" class="card auth">
+      <div class="tabs"><button type="button" class="tab active" data-tab="login">Log in</button><button type="button" class="tab" data-tab="signup">Create account</button></div>
+      <form id="loginForm" class="form">
+        <label>Username<input name="username" autocomplete="username" required maxlength="20"></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+        <button type="submit" class="primary">Enter the Corps</button>
+      </form>
+      <form id="signupForm" class="form hidden">
+        <label>Display name<input name="displayName" required maxlength="30"></label>
+        <label>Unique username<input name="username" autocomplete="username" required minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+"></label>
+        <label>Password<input name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="72"></label>
+        <button type="submit" class="primary">Create account</button>
+      </form>
+    </div>
+
+    <div id="composer" class="card composer hidden">
+      <div id="composerAvatar" class="avatar water">水</div>
+      <form id="postForm">
+        <textarea id="postText" maxlength="280" placeholder="What is happening in the Demon Slayer Corps?" required></textarea>
+        <div class="composer-bottom"><span id="count">0 / 280</span><button type="submit" id="postButton" class="primary">Post Tweet</button></div>
+      </form>
+    </div>
+
+    <div class="feed-head">
+      <div><p class="eyebrow">LATEST MESSAGES</p><h2>Corps Feed</h2></div>
+      <button type="button" id="refresh" class="icon" aria-label="Refresh feed">↻</button>
+    </div>
+    <div id="feed" class="feed"><div class="card empty">Loading tweets…</div></div>
+  </section>
+
+  <aside class="right">
+    <div id="profileCard" class="card profile hidden">
+      <div id="profileAvatar" class="avatar big water">水</div>
+      <h3 id="profileName">Slayer</h3>
+      <p id="profileUser" class="muted">@username</p>
+      <p id="profileBio" class="bio">No bio yet.</p>
+      <div class="profile-details">
+        <div class="detail"><small>Username</small><b id="detailUsername">—</b></div>
+        <div class="detail"><small>Style</small><b id="detailStyle">Water</b></div>
+        <div class="detail"><small>Joined</small><b id="detailJoined">—</b></div>
+      </div>
+      <button type="button" id="editProfile" class="secondary">Edit profile</button>
+    </div>
+    <div class="card rules"><p class="eyebrow">CORPS RULES</p><h3>Keep the village safe</h3><p>Be respectful. Never share passwords or private information. Avoid spam, impersonation, and harmful content.</p></div>
+    <div class="card trends"><p class="eyebrow">TRENDING</p><div><b>#WaterBreathing</b><small>Flow like water</small></div><div><b>#HashiraTraining</b><small>Train together</small></div><div><b>#MugenTrain</b><small>Set your heart ablaze</small></div></div>
+  </aside>
+</main>
+
+<dialog id="profileDialog">
+  <form id="profileForm">
+    <div class="dialog-head"><div><p class="eyebrow">CUSTOMIZE</p><h2>Edit profile</h2></div><button type="button" id="closeDialog" class="icon">×</button></div>
+    <label>Display name<input id="editName" maxlength="30" required></label>
+    <label>Bio<textarea id="editBio" maxlength="160" placeholder="Tell the Corps about yourself"></textarea></label>
+    <fieldset><legend>Breathing style</legend><div class="styles">
+      <label><input type="radio" name="style" value="water"><span class="avatar water">水</span>Water</label>
+      <label><input type="radio" name="style" value="flame"><span class="avatar flame">炎</span>Flame</label>
+      <label><input type="radio" name="style" value="mist"><span class="avatar mist">霞</span>Mist</label>
+      <label><input type="radio" name="style" value="thunder"><span class="avatar thunder">雷</span>Thunder</label>
+      <label><input type="radio" name="style" value="flower"><span class="avatar flower">花</span>Flower</label>
+    </div></fieldset>
+    <button type="submit" class="primary">Save profile</button>
+  </form>
+</dialog>
+<div id="toast" class="toast"></div>
+
+<script>
+const state={user:null,posts:[]};
+const $=s=>document.querySelector(s);
+const styles={water:"Water",flame:"Flame",mist:"Mist",thunder:"Thunder",flower:"Flower"};
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function symbol(s){return({water:"水",flame:"炎",mist:"霞",thunder:"雷",flower:"花"})[s]||"水"}
+function timeAgo(date){const n=new Date(date),s=Math.max(0,Math.floor((Date.now()-n.getTime())/1000));if(s<60)return"now";if(s<3600)return Math.floor(s/60)+"m";if(s<86400)return Math.floor(s/3600)+"h";if(s<604800)return Math.floor(s/86400)+"d";return n.toLocaleDateString()}
+function joined(date){return date?new Date(date).toLocaleDateString(undefined,{month:"short",year:"numeric"}):"Unknown"}
+function toast(message,error=false){const t=$("#toast");t.textContent=message;t.className="toast show"+(error?" error":"");clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.className="toast",2700)}
+async function api(url,options={}){
+  const headers={...(options.headers||{})};
+  if(options.body&&!headers["Content-Type"])headers["Content-Type"]="application/json";
+  const response=await fetch(url,{...options,headers,credentials:"same-origin"});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data?.error||`Request failed (${response.status}).`);
+  return data||{};
+}
+
+function setTheme(theme){
+  document.documentElement.dataset.theme=theme;
+  localStorage.setItem("dst-theme",theme);
+  $("#themeToggle").textContent=theme==="dark"?"☀":"☾";
+  $("#themeToggle").title=theme==="dark"?"Switch to light theme":"Switch to dark theme";
+}
+setTheme(localStorage.getItem("dst-theme")==="light"?"light":"dark");
+$("#themeToggle").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+
+function openSocialPage(){
+  requestAnimationFrame(()=>{
+    $("#socialPage").scrollIntoView({behavior:"smooth",block:"start"});
+    setTimeout(()=>$("#postText").focus(),420);
+  });
+}
+
+function updateUserUI(){
+  const u=state.user;
+  $("#authCard").classList.toggle("hidden",Boolean(u));
+  $("#composer").classList.toggle("hidden",!u);
+  $("#profileCard").classList.toggle("hidden",!u);
+  $("#headerActions").innerHTML=u?'<button type="button" id="logout" class="secondary">Log out</button>':'<span class="muted">Join the Corps</span>';
+
+  if(!u)return;
+
+  for(const [id,big] of [["#profileAvatar",true],["#composerAvatar",false]]){
+    const el=$(id);el.className="avatar "+(big?"big ":"")+u.avatar_style;el.textContent=symbol(u.avatar_style);
+  }
+  $("#profileName").textContent=u.display_name;
+  $("#profileUser").textContent="@"+u.username;
+  $("#profileBio").textContent=u.bio||"No bio yet.";
+  $("#detailUsername").textContent="@"+u.username;
+  $("#detailStyle").textContent=styles[u.avatar_style]||"Water";
+  $("#detailJoined").textContent=joined(u.created_at);
+
+  const logoutButton=$("#logout");
+  if(logoutButton)logoutButton.onclick=async()=>{
+    try{await api("/api/logout",{method:"POST"});state.user=null;updateUserUI();await loadFeed();toast("Logged out.")}
+    catch(error){toast(error.message,true)}
+  };
+}
+
+function renderFeed(){
+  if(!state.posts.length){
+    $("#feed").innerHTML='<div class="card empty">No tweets yet. Sign in and post the first one.</div>';
+    return;
+  }
+  $("#feed").innerHTML=state.posts.map(p=>`
+    <article class="card post">
+      <div class="post-top">
+        <div class="avatar ${esc(p.avatar_style)}">${symbol(p.avatar_style)}</div>
+        <div class="post-meta">
+          <span class="post-name">${esc(p.display_name)}</span>
+          <span class="post-user">@${esc(p.username)}</span>
+          <span class="post-time"> · ${timeAgo(p.created_at)}</span>
+        </div>
+      </div>
+      <div class="post-body">${esc(p.content)}</div>
+      <div class="actions">
+        <button class="action like ${p.liked_by_me?"liked":""}" data-id="${p.id}">${p.liked_by_me?"♥":"♡"} <span>${Number(p.like_count)||0}</span></button>
+        ${state.user&&String(state.user.id)===String(p.user_id)?`<button class="action delete" data-id="${p.id}">Delete</button>`:""}
+      </div>
+    </article>`).join("");
+
+  document.querySelectorAll(".like").forEach(button=>button.onclick=async()=>{
+    if(!state.user)return toast("Log in to like tweets.",true);
+    button.disabled=true;
+    try{
+      const data=await api(`/api/posts/${button.dataset.id}/like`,{method:"POST"});
+      button.classList.toggle("liked",data.liked);
+      button.innerHTML=`${data.liked?"♥":"♡"} <span>${data.likeCount}</span>`;
+    }catch(error){toast(error.message,true)}
+    finally{button.disabled=false}
+  });
+
+  document.querySelectorAll(".delete").forEach(button=>button.onclick=async()=>{
+    if(!confirm("Delete this tweet?"))return;
+    button.disabled=true;
+    try{await api(`/api/posts/${button.dataset.id}`,{method:"DELETE"});await loadFeed();toast("Tweet deleted.")}
+    catch(error){toast(error.message,true);button.disabled=false}
+  });
+}
+
+async function loadMe(){
+  try{const data=await api("/api/me");state.user=data?.user||null;updateUserUI()}
+  catch(error){state.user=null;updateUserUI();toast(error.message,true)}
+}
+async function loadFeed(){
+  try{
+    const data=await api("/api/feed");
+    state.posts=Array.isArray(data?.posts)?data.posts:[];
+    renderFeed();
+  }catch(error){
+    $("#feed").innerHTML=`<div class="card empty">${esc(error.message)}<br><button type="button" id="retryFeed" class="secondary">Try again</button></div>`;
+    const retry=$("#retryFeed");if(retry)retry.onclick=loadFeed;
+  }
+}
+
+document.querySelectorAll(".tab").forEach(tab=>tab.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===tab));
+  $("#loginForm").classList.toggle("hidden",tab.dataset.tab!=="login");
+  $("#signupForm").classList.toggle("hidden",tab.dataset.tab!=="signup");
+});
+
+$("#loginForm").onsubmit=async event=>{
+  event.preventDefault();
+  const button=event.submitter || event.target.querySelector('button[type="submit"], button:not([type])');
+  if(button){button.disabled=true;button.textContent="Logging in…";}
+  try{
+    const body=Object.fromEntries(new FormData(event.target));
+    const loginData=await api("/api/login",{method:"POST",body:JSON.stringify(body)});
+    if(!loginData || !loginData.user) throw new Error("Login failed. Please try again.");
+    state.user=loginData.user;
+    event.target.reset();updateUserUI();await loadFeed();openSocialPage();toast("Welcome back, "+state.user.display_name+"!");
+  }catch(error){toast(error.message,true)}
+  finally{if(button){button.disabled=false;button.textContent="Enter the Corps"}}
+};
+
+$("#signupForm").onsubmit=async event=>{
+  event.preventDefault();
+  const button=event.submitter || event.target.querySelector('button[type="submit"], button:not([type])');
+  if(button){button.disabled=true;button.textContent="Creating account…";}
+  try{
+    const body=Object.fromEntries(new FormData(event.target));
+    const signupData=await api("/api/signup",{method:"POST",body:JSON.stringify(body)});
+    if(!signupData || !signupData.user) throw new Error("Account was not created. Please try again.");
+    state.user=signupData.user;
+    event.target.reset();updateUserUI();await loadFeed();openSocialPage();toast("Account created. Your profile is ready!");
+  }catch(error){toast(error.message,true)}
+  finally{if(button){button.disabled=false;button.textContent="Create account"}}
+};
+
+$("#postText").oninput=e=>$("#count").textContent=e.target.value.length+" / 280";
+$("#postForm").onsubmit=async event=>{
+  event.preventDefault();
+  const text=$("#postText").value.trim();
+  if(!text)return toast("Write something before posting.",true);
+  const button=$("#postButton");button.disabled=true;button.textContent="Posting…";
+  try{
+    await api("/api/posts",{method:"POST",body:JSON.stringify({content:text})});
+    $("#postText").value="";$("#count").textContent="0 / 280";
+    await loadFeed();toast("Tweet posted.");
+  }catch(error){toast(error.message,true)}
+  finally{button.disabled=false;button.textContent="Post Tweet"}
+};
+
+$("#refresh").onclick=loadFeed;
+$("#editProfile").onclick=()=>{
+  const u=state.user;if(!u)return;
+  $("#editName").value=u.display_name;$("#editBio").value=u.bio||"";
+  const radio=document.querySelector(`input[name="style"][value="${u.avatar_style}"]`);if(radio)radio.checked=true;
+  const dialog=$("#profileDialog");
+  if(typeof dialog.showModal==="function")dialog.showModal();
+  else dialog.setAttribute("open","");
+};
+$("#closeDialog").onclick=()=>{
+  const dialog=$("#profileDialog");
+  if(typeof dialog.close==="function")dialog.close();
+  else dialog.removeAttribute("open");
+};
+$("#profileForm").onsubmit=async event=>{
+  event.preventDefault();
+  const button=event.submitter || event.target.querySelector('button[type="submit"], button:not([type])');
+  if(button){button.disabled=true;button.textContent="Saving…";}
+  try{
+    const profileData=await api("/api/profile",{method:"PATCH",body:JSON.stringify({
+      displayName:$("#editName").value,
+      bio:$("#editBio").value,
+      avatarStyle:document.querySelector('input[name="style"]:checked')?.value||"water"
+    })});
+    if(!profileData?.user)throw new Error("Profile could not be updated.");
+    state.user=profileData.user;
+    const dialog=$("#profileDialog");
+    if(typeof dialog.close==="function")dialog.close();else dialog.removeAttribute("open");
+    updateUserUI();await loadFeed();toast("Profile updated.");
+  }catch(error){toast(error.message,true)}
+  finally{if(button){button.disabled=false;button.textContent="Save profile"}}
+};
+
+(async()=>{await loadMe();await loadFeed()})();
+</script>
+</body>
+</html>
