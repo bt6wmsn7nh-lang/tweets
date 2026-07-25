@@ -1,7 +1,6 @@
 {
   "name": "demon-slayer-tweet",
   "version": "2.0.0",
-  "description": "Demon Slayer-themed social media website",
   "private": true,
   "main": "server.js",
   "scripts": {
@@ -12,8 +11,6 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "pg": "^8.16.3"
   }
